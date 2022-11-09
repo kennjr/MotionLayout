@@ -1,0 +1,104 @@
+// this is where we're gonna
+{
+  ConstraintSets : {
+    // below we'll have the constraint sets of the start layout for the animation
+    start: {
+      // this will be constraints of the image and the key profile_pic is what we'll use on the other side as the id
+      profile_pic: {
+        width: 40,
+        height: 40,
+        // below we're constraining the profile_pic to the start of the parent and giving the view a margin of 16dp from the start
+        start: ['parent', 'start', 16],
+        // below we're constraining the profile_pic to the top of the parent and giving the view a margin of 16dp from the top
+        top: ['parent', 'top', 16],
+        // below we're constraining the profile_pic to the bottom of the parent and giving the view a margin of 16dp from the bottom
+        bottom: ['parent', 'bottom', 16],
+        custom: {
+          background: '#000000'
+        }
+      },
+      username: {
+        // this block lacks the width and height and that will give the view the default of wrap_content for both w and h
+        top: ['parent', 'top', 0],
+        bottom: ['parent', 'bottom', 0],
+        start: ['profile_pic', 'end', 20],
+      },
+      box: {
+        // the value spread for the keys width and height will make sure the composable fills the entire available space
+        width: 'spread',
+        height: 'spread',
+        top: ['parent', 'top', 0],
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        // the margin of -16 will make sure we've got some space below the composables inside the box
+        bottom: ['parent', 'bottom', 0],
+      }
+    },
+    // this block will contain the constraints of the end-layout of our layout
+    end: {
+      // this will be constraints of the image and the key profile_pic is what we'll use on the other side as the id
+      profile_pic: {
+        width: 120,
+        height: 120,
+        // below we're constraining the profile_pic to the start of the parent and giving the view a margin of 16dp from the start
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        // below we're constraining the profile_pic to the top of the parent and giving the view a margin of 16dp from the top
+        top: ['parent', 'top', 20],
+        custom: {
+          background: '#ff5722'
+        }
+      },
+      username: {
+        // this block lacks the width and height and that will give the view the default of wrap_content for both w and h
+        top: ['profile_pic', 'bottom', 20],
+        bottom: ['parent', 'bottom', 16],
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+      },
+      box: {
+        // the value spread for the keys width and height will make sure the composable fills the entire available space
+        width: 'spread',
+        height: 'spread',
+        top: ['parent', 'top', 0],
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        // the margin of -16 will make sure we've got some space below the composables inside the box
+        bottom: ['parent', 'bottom', -16],
+      }
+    }
+  },
+  // in here we're gonna define how the motion layout should move from start to end
+  Transitions: {
+    default: {
+      from: 'start',
+      end: 'end',
+      // the line below wil state whether the animation should start vertically or horizontally
+      pathMotionArc: 'startHorizontal',
+      // with KeyFrames we'll be able to define at what frame should which value animate to which new value
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            // target will contain the ids that will be affected by the changes that will be added below the target
+            target: ['profile_pic'],
+            frames: [0, 100]
+          },
+          {
+            target: ['username'],
+            // these are the spots at which we'd like to alter sth abt the animation
+            frames: [0, 50, 100],
+            // what the line below states is that when we start the animation the username should be
+            // positioned at it's origin(i.e where it's meant to be at that time), then when the animation
+            // is halfway done we should move the username composable 90px away from the origin
+            // (to the right of where is should be) of that time
+            // (on the x-axis), then move it back to the origin(of the end-time) as the animation is concluded
+            translationX: [0, 90, 0],
+            // the rotationZ will rotate the view on the z-axis as the animation moves from start to 50%,
+            // then it'll rotate it again back to the original as the animation is concluded
+            rotationZ: [0, 180, 0]
+          }
+        ]
+      }
+    }
+  }
+}
